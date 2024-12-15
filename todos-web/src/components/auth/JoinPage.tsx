@@ -7,7 +7,7 @@ import { Email, JoinFormActions, Name, Password } from "./composition";
 const schema = z.object({
   name: z.string().min(3, "Name is required"),
   email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters long"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
 export type JoinForm = z.infer<typeof schema>;

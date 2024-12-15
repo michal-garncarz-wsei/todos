@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button } from "antd";
 import { useFormContext } from "react-hook-form";
+import { Button, message } from "antd";
 import { useMutation } from "@tanstack/react-query";
-import { FormItem } from "../..";
-import { supabase } from "../../../services";
+import { FormItem } from "../../../components";
 import { useNavigate } from "../../../hooks";
+import { supabase } from "../../../services";
 import type { LoginForm } from "..";
 
 export const LoginFormActions: React.FC = () => {
@@ -28,12 +28,18 @@ export const LoginFormActions: React.FC = () => {
         password: formData.password,
       });
 
-      const userId = signUpResponse.data.user?.id;
-      const errorMessage = signUpResponse.error?.message;
+      const error = signUpResponse.error;
 
-      if (!userId || errorMessage) {
+      if (error?.code === "email_not_confirmed") {
+        methods.reset();
+        message.warning("Please confirm your email address to sign in");
+        navigate("/login");
+        return;
+      }
+
+      if (error) {
         setIsError(true);
-        throw new Error(errorMessage);
+        throw new Error(error.message);
       }
 
       navigate("/");

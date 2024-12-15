@@ -7,6 +7,10 @@ export const supabase = createClient<Database>(
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
+supabase.auth.onAuthStateChange((event, session) => {
+  console.log(event, session);
+});
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

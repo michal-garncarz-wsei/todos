@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useFormContext } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { FormItem } from "../../../components";
-import { supabase } from "../../../services";
 import { useNavigate } from "../../../hooks";
+import { supabase } from "../../../services";
 import type { JoinForm } from "../";
 
 export const JoinFormActions: React.FC = () => {
@@ -30,15 +30,6 @@ export const JoinFormActions: React.FC = () => {
     },
   });
 
-  // const signInMutation = useMutation({
-  //   mutationFn: async (args: { email: string; password: string }) => {
-  //     return await supabase.auth.signInWithPassword({
-  //       email: args.email,
-  //       password: args.password,
-  //     });
-  //   },
-  // });
-
   const onClick = () => {
     const handleSubmitFn = async (formData: JoinForm) => {
       const signUpResponse = await signUpMutation.mutateAsync({
@@ -46,26 +37,29 @@ export const JoinFormActions: React.FC = () => {
         password: formData.password,
       });
 
-      const userId = signUpResponse.data.user?.id;
-      const errorMessage = signUpResponse.error?.message;
+      const signUpError = signUpResponse.error;
+      const user = signUpResponse.data.user;
 
-      if (!userId || errorMessage) {
-        setIsError(true);
-        throw new Error(errorMessage);
+      if (signUpError) {
+        throw new Error(signUpError.message);
+      }
+      if (!user) {
+        throw new Error("Failed to sign up");
       }
 
       const upsertNameResponse = await upsertNameMutation.mutateAsync({
-        userId,
+        userId: user.id,
         username: formData.name,
       });
 
-      const upsertNameErrorMessage = upsertNameResponse.error?.message;
+      const upsertNameError = upsertNameResponse.error;
 
-      if (upsertNameErrorMessage) {
+      if (upsertNameError) {
         setIsError(true);
-        throw new Error(upsertNameErrorMessage);
+        throw new Error(upsertNameError.message);
       }
 
+      message.info("Please remember to verify your email address");
       navigate("/");
     };
 
