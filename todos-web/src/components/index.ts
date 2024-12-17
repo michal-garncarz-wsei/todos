@@ -6,3 +6,4 @@ export * from "./main/Main";
 export * from "./user/User";
 export * from "./search/Search";
 export * from "./logo/Logo";
+export * from "./add-task/AddTask";

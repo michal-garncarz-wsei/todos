@@ -1,5 +1,5 @@
 import { Layout } from "antd";
-import { Logo, Search, User } from "../../components";
+import { AddTask, Logo, Search, User } from "../../components";
 import { Suspense } from "react";
 
 const { Header, Content } = Layout;
@@ -14,7 +14,11 @@ export const Main: React.FC = () => {
           <User />
         </Suspense>
       </Header>
-      <Content></Content>
+      <Content className="content">
+        <div className="container">
+          <AddTask />
+        </div>
+      </Content>
     </Layout>
   );
 };
