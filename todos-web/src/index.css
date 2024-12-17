@@ -34,7 +34,6 @@ ol[role="list"] {
 }
 
 body {
-  height: 100vh;
   line-height: 1.5;
   padding: 0;
 }
@@ -91,14 +90,14 @@ textarea:not([rows]) {
 }
 
 .loading-layout {
-  height: inherit;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
 .auth-layout {
-  height: inherit;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -106,7 +105,7 @@ textarea:not([rows]) {
 }
 
 .main-layout {
-  height: inherit;
+  min-height: 100vh;
 }
 
 .header {
@@ -166,4 +165,17 @@ textarea:not([rows]) {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
+  margin-bottom: 40px;
+}
+
+.task {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -1,5 +1,5 @@
-import { Layout } from "antd";
-import { AddTask, Logo, Search, User } from "../../components";
+import { Layout, Skeleton } from "antd";
+import { AddTask, Logo, Search, Tasks, User } from "../../components";
 import { Suspense } from "react";
 
 const { Header, Content } = Layout;
@@ -17,6 +17,9 @@ export const Main: React.FC = () => {
       <Content className="content">
         <div className="container">
           <AddTask />
+          <Suspense fallback={<Skeleton />}>
+            <Tasks />
+          </Suspense>
         </div>
       </Content>
     </Layout>

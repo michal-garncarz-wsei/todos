@@ -45,7 +45,7 @@ export const User: React.FC = () => {
 
   return (
     <Dropdown
-      placement="bottomCenter"
+      placement="bottom"
       menu={{
         items: [
           {

@@ -3,18 +3,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "antd";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
-import { TaskInput } from "./composition/Input";
-import { useMutation } from "@tanstack/react-query";
+import { COLOR, TaskInput } from "./composition/Input";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../services";
 
 const schema = z.object({
-  name: z.string().max(255),
-  color: z.string().length(7),
+  name: z.string(),
+  color: z.string(),
 });
 
 export type TaskForm = z.infer<typeof schema>;
 
 export const AddTask: React.FC = () => {
+  const queryClient = useQueryClient();
   const methods = useForm<TaskForm>({
     resolver: zodResolver(schema),
   });
@@ -55,7 +56,8 @@ export const AddTask: React.FC = () => {
         throw new Error(response.error.message);
       }
 
-      methods.reset();
+      methods.reset({ color: COLOR, name: "" });
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
     };
 
     methods.handleSubmit(asyncFn, console.error)();

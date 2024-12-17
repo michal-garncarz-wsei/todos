@@ -3,7 +3,7 @@ import { useController } from "react-hook-form";
 import { TaskForm } from "../AddTask";
 import { useEffect } from "react";
 
-const COLOR = "#D3D3D3";
+export const COLOR = "#D3D3D3";
 
 export const TaskInput: React.FC = () => {
   const { field: nameField } = useController<TaskForm>({ name: "name" });
@@ -21,7 +21,8 @@ export const TaskInput: React.FC = () => {
       addonAfter={
         <ColorPicker
           {...colorField}
-          value={colorField.value ?? COLOR}
+          onChange={(_, rgb) => colorField.onChange(rgb)}
+          format="hex"
           defaultValue={COLOR}
           disabledAlpha={true}
         />
