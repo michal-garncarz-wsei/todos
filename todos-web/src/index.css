@@ -87,7 +87,7 @@ textarea:not([rows]) {
 
 #root {
   height: inherit;
-  background-color: #f6f6f6;
+  background-color: #f5f5f5;
 }
 
 .loading-layout {
@@ -116,4 +116,33 @@ textarea:not([rows]) {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  flex-wrap: wrap;
+}
+
+.login-panel {
+  background: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-item {
+  width: 100%;
+
+  .ant-form-item-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+
+    .ant-form-item-label,
+    .ant-form-item-control {
+      width: 100%;
+    }
+  }
 }

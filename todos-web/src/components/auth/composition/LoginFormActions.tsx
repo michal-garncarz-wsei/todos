@@ -13,12 +13,11 @@ export const LoginFormActions: React.FC = () => {
   const navigate = useNavigate();
 
   const signInMutation = useMutation({
-    mutationFn: async (args: { email: string; password: string }) => {
-      return await supabase.auth.signInWithPassword({
+    mutationFn: (args: { email: string; password: string }) =>
+      supabase.auth.signInWithPassword({
         email: args.email,
         password: args.password,
-      });
-    },
+      }),
   });
 
   const onClick = () => {
@@ -57,7 +56,7 @@ export const LoginFormActions: React.FC = () => {
   const loading = signInMutation.isPending;
 
   return (
-    <FormItem label={null}>
+    <FormItem label={null} style={{ marginBottom: 0, textAlign: "center" }}>
       <Button onClick={onClick} type="primary" loading={loading}>
         Sign in
       </Button>

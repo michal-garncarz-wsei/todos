@@ -75,7 +75,7 @@ export const JoinFormActions: React.FC = () => {
   const loading = signUpMutation.isPending || upsertNameMutation.isPending;
 
   return (
-    <FormItem label={null}>
+    <FormItem label={null} style={{ marginBottom: 0, textAlign: "center" }}>
       <Button onClick={onClick} type="primary" loading={loading}>
         Sign in
       </Button>

@@ -1,4 +1,4 @@
-import { Form, Typography } from "antd";
+import { Typography } from "antd";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -17,21 +17,26 @@ export const LoginPage: React.FC = () => {
   });
 
   return (
-    <FormProvider {...methods}>
-      <Typography.Title level={2} style={{ marginBottom: "24px" }}>
-        Sign in to{" "}
-        <Typography.Text
-          italic={true}
-          style={{ fontSize: "inherit", marginLeft: "3px" }}
+    <div className="login-panel">
+      <FormProvider {...methods}>
+        <Typography.Title
+          level={2}
+          style={{ marginBottom: "24px", textAlign: "center" }}
         >
-          todos
-        </Typography.Text>
-      </Typography.Title>
-      <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
-        <Email />
-        <Password />
-        <LoginFormActions />
-      </Form>
-    </FormProvider>
+          Sign in to{" "}
+          <Typography.Text
+            italic={true}
+            style={{ fontSize: "inherit", marginLeft: "3px" }}
+          >
+            todos
+          </Typography.Text>
+        </Typography.Title>
+        <form style={{ width: "300px" }}>
+          <Email />
+          <Password />
+          <LoginFormActions />
+        </form>
+      </FormProvider>
+    </div>
   );
 };

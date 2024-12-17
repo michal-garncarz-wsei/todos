@@ -5,8 +5,8 @@ type FormItemProps = FormItemPropsAntd;
 
 export const FormItem: React.FC<FormItemProps> = (props) => {
   return (
-    <div>
-      <Form.Item {...props} />
+    <div className="form-item">
+      <Form.Item {...props} labelAlign="left" colon={false} />
     </div>
   );
 };
