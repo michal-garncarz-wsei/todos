@@ -56,7 +56,7 @@ export const LoginFormActions: React.FC = () => {
   const loading = signInMutation.isPending;
 
   return (
-    <FormItem label={null} style={{ marginBottom: 0, textAlign: "center" }}>
+    <FormItem label={null} style={{ textAlign: "center" }}>
       <Button onClick={onClick} type="primary" loading={loading}>
         Sign in
       </Button>

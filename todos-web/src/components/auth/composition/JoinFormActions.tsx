@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, message } from "antd";
+import { Button, notification } from "antd";
 import { useFormContext } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { FormItem } from "../../../components";
@@ -43,6 +43,7 @@ export const JoinFormActions: React.FC = () => {
       if (signUpError) {
         throw new Error(signUpError.message);
       }
+
       if (!user) {
         throw new Error("Failed to sign up");
       }
@@ -59,7 +60,10 @@ export const JoinFormActions: React.FC = () => {
         throw new Error(upsertNameError.message);
       }
 
-      message.info("Please remember to verify your email address");
+      notification.info({
+        message:
+          "Please remember to verify your email address before signing in",
+      });
       navigate("/");
     };
 
@@ -75,7 +79,7 @@ export const JoinFormActions: React.FC = () => {
   const loading = signUpMutation.isPending || upsertNameMutation.isPending;
 
   return (
-    <FormItem label={null} style={{ marginBottom: 0, textAlign: "center" }}>
+    <FormItem label={null} style={{ textAlign: "center" }}>
       <Button onClick={onClick} type="primary" loading={loading}>
         Sign in
       </Button>

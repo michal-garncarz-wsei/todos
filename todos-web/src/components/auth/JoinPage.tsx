@@ -1,8 +1,9 @@
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Email, JoinFormActions, Name, Password } from "./composition";
+import { useNavigate } from "../../hooks";
 
 const schema = z.object({
   name: z.string().min(3, "Name is required"),
@@ -13,6 +14,8 @@ const schema = z.object({
 export type JoinForm = z.infer<typeof schema>;
 
 export const JoinPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const methods = useForm<JoinForm>({
     resolver: zodResolver(schema),
   });
@@ -35,6 +38,9 @@ export const JoinPage: React.FC = () => {
           <Password />
           <JoinFormActions />
         </form>
+        <Button type="link" onClick={() => navigate("/login")}>
+          Sign in
+        </Button>
       </FormProvider>
     </div>
   );

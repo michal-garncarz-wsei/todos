@@ -1,8 +1,9 @@
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Email, LoginFormActions, Password } from "./composition";
+import { useNavigate } from "../../hooks";
 
 const schema = z.object({
   email: z.string().email("Invalid email address"),
@@ -12,6 +13,7 @@ const schema = z.object({
 export type LoginForm = z.infer<typeof schema>;
 
 export const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
   const methods = useForm<LoginForm>({
     resolver: zodResolver(schema),
   });
@@ -37,6 +39,9 @@ export const LoginPage: React.FC = () => {
           <LoginFormActions />
         </form>
       </FormProvider>
+      <Button type="link" onClick={() => navigate("/join")}>
+        Sign up
+      </Button>
     </div>
   );
 };
