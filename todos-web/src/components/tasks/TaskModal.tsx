@@ -39,7 +39,7 @@ export const TaskModal: React.FC<TaskProps> = ({ taskId, setIsModalOpen }) => {
     },
   });
 
-  const { is_complete: isCompleted, task: name } = data;
+  const { is_complete: isCompleted, task: name, color } = data;
 
   const queryClient = useQueryClient();
   const updateTaskMutation = useMutation({
@@ -90,7 +90,7 @@ export const TaskModal: React.FC<TaskProps> = ({ taskId, setIsModalOpen }) => {
   };
 
   return (
-    <div className="task-modal">
+    <div className="task-modal" style={{ borderTop: `3px solid ${color}` }}>
       <Typography.Text strong>{name}</Typography.Text>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         <Button

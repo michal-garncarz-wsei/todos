@@ -2,6 +2,15 @@
 *::before,
 *::after {
   box-sizing: border-box;
+
+  .ant-modal-content {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  .ant-modal-body {
+    background: transparent;
+  }
 }
 
 * {
@@ -182,10 +191,13 @@ textarea:not([rows]) {
 }
 
 .task-modal {
+  padding: 15px;
+  border-radius: 10px;
   display: flex;
   padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  background: #fff;
 }
