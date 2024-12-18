@@ -8,7 +8,7 @@ export const ErrorBoundaryFallback: React.FC = () => {
   return (
     <div
       style={{
-        height: "inherit",
+        height: "100vh",
         background: "#f6f6f6",
         display: "flex",
         justifyContent: "center",

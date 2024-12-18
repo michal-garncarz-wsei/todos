@@ -1,21 +1,46 @@
 import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { Button, Typography } from "antd";
 import { supabase } from "../../services";
 
 type TaskProps = {
   taskId: number;
-  name: string | null;
-  color: string;
-  isCompleted: boolean | null;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const Task: React.FC<TaskProps> = ({
-  taskId,
-  name,
-  color,
-  isCompleted,
-}) => {
+export const TaskModal: React.FC<TaskProps> = ({ taskId, setIsModalOpen }) => {
+  const { data } = useSuspenseQuery({
+    queryKey: ["task", taskId],
+    queryFn: async () => {
+      const supabaseAuth: { user?: { id?: string } } = JSON.parse(
+        localStorage.getItem("supabase.auth") ?? ""
+      );
+
+      if (!supabaseAuth.user?.id) {
+        throw new Error("User not found");
+      }
+
+      const { data, error } = await supabase
+        .from("todos")
+        .select()
+        .eq("id", taskId)
+        .eq("user_id", supabaseAuth.user.id)
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    },
+  });
+
+  const { is_complete: isCompleted, task: name } = data;
+
   const queryClient = useQueryClient();
   const updateTaskMutation = useMutation({
     mutationFn: async (args: { taskId: number }) => {
@@ -38,7 +63,7 @@ export const Task: React.FC<TaskProps> = ({
     },
   });
 
-  const handleAddTask = async () => {
+  const handleCheckTask = async () => {
     const response = await updateTaskMutation.mutateAsync({
       taskId: taskId,
     });
@@ -48,6 +73,7 @@ export const Task: React.FC<TaskProps> = ({
     }
 
     queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    queryClient.invalidateQueries({ queryKey: ["task", taskId] });
   };
 
   const handleDeleteTask = async () => {
@@ -60,10 +86,11 @@ export const Task: React.FC<TaskProps> = ({
     }
 
     queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    setIsModalOpen(false);
   };
 
   return (
-    <div className="task" style={{ borderTop: `3px solid ${color}` }}>
+    <div className="task-modal">
       <Typography.Text strong>{name}</Typography.Text>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         <Button
@@ -85,7 +112,7 @@ export const Task: React.FC<TaskProps> = ({
             background: `${isCompleted ? "#52c41a" : "#fff"}`,
             color: `${isCompleted ? "#fff" : "#c9c9c9"}`,
           }}
-          onClick={handleAddTask}
+          onClick={handleCheckTask}
           loading={updateTaskMutation.isPending}
         />
       </div>
